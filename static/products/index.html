@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title></title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const releaseFilter = document.getElementById("releaseFilter");
+      const ratingFilter = document.getElementById("ratingFilter");
+      const osFilter = document.getElementById("osFilter");
+      const cards = document.querySelectorAll(".handheld-card");
+
+      function filterCards() {
+        const selectedRelease = releaseFilter.value;
+        const selectedRating = parseInt(ratingFilter.value);
+        const selectedOS = osFilter.value;
+
+        const sortedCards = Array.from(cards).sort((a, b) => {
+          const aRelease = parseInt(a.dataset.release);
+          const bRelease = parseInt(b.dataset.release);
+          return selectedRelease === "newest" ? bRelease - aRelease : aRelease - bRelease;
+        });
+
+        const container = document.getElementById("cardsContainer");
+        container.innerHTML = "";
+        sortedCards.forEach(card => container.appendChild(card));
+
+        sortedCards.forEach((card) => {
+          const cardRelease = card.dataset.release;
+          const cardRating = parseInt(card.dataset.rating);
+          const cardOS = card.dataset.os;
+
+          const matchRelease = selectedRelease === "All" || selectedRelease === "newest" || selectedRelease === "oldest" || cardRelease === selectedRelease;
+          const matchRating = isNaN(selectedRating) || cardRating >= selectedRating;
+          const matchOS = selectedOS === "All" || cardOS === selectedOS;
+
+          if (matchRelease && matchRating && matchOS) {
+            card.classList.remove("hidden");
+          } else {
+            card.classList.add("hidden");
+          }
+        });
+      }
+
+      releaseFilter.addEventListener("change", filterCards);
+      ratingFilter.addEventListener("change", filterCards);
+      osFilter.addEventListener("change", filterCards);
+    });
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <header class="bg-white shadow p-6">
+  </header>
+
+  <main class="container mx-auto p-6">
+    <div class="mb-6 flex flex-wrap gap-4">
+      <select id="releaseFilter" class="border border-gray-300 rounded p-2">
+        <option value="All">All Releases</option>
+        <option value="newest">Newest First</option>
+        <option value="oldest">Oldest First</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+      </select>
+      <select id="ratingFilter" class="border border-gray-300 rounded p-2">
+        <option value="">All Ratings</option>
+        <option value="5">5 Stars</option>
+        <option value="4">4 Stars & Up</option>
+        <option value="3">3 Stars & Up</option>
+      </select>
+      <select id="osFilter" class="border border-gray-300 rounded p-2">
+        <option value="All">All OS</option>
+        <option value="SteamOS">SteamOS</option>
+        <option value="Nintendo OS">Nintendo OS</option>
+        <option value="Windows 11">Windows 11</option>
+        <option value="Linux (Arm)">Linux</option>
+        <option value="Linux (x86)">Linux</option>
+        <option value="Android">Android</option>
+      </select>
+    </div>
+
+    <div id="cardsContainer" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div class="handheld-card bg-white rounded-2xl shadow p-4" data-release="2024" data-rating="5" data-os="Linux (Arm)">
+        <img src="https://anbernic.com/cdn/shop/files/RG34XX_536136c4-deaf-4180-9c74-d680502ae5fb.png?v=1741842879&width=400" alt="Anbernic RG34XX" class="rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Anbernic RG34XX</h2>
+        <p class="mb-2 text-sm text-gray-600">On a Linux 64-bit system with a 3.4-inch IPS full-fit screen, ensuring smooth performance.</p>
+        <p class="text-sm text-gray-500 mb-1">Release Year: 2024</p>
+        <p class="text-sm text-gray-500 mb-1">Specs: 3.4-inch IPS, Allwinner H700, 1GB RAM, 3,500mAh Battery</p>
+        <p class="text-sm text-gray-500 mb-1">OS: Linux (Arm)</p>
+        <p class="text-sm text-gray-500 mb-2">Retail Price: $64.99</p>
+        <div class="text-yellow-400 mb-2">★★★★★</div>
+        <div class="flex gap-4">
+          <a href="https://rh-go.link/RG34XX" target="_blank" class="text-blue-500 hover:underline">Best Deal</a>
+          <a href="https://rh-go.link/RG34XX" target="_blank" class="text-blue-500 hover:underline">Direct</a>
+          <a href="https://rh-go.link/RG34XX_AE" target="_blank" class="text-blue-500 hover:underline">AliExpress</a>
+          <a href="https://rh-go.link/RG34XX_Amzn" target="_blank" class="text-blue-500 hover:underline">Amazon</a>
+        </div>
+      </div>
+
+      <div class="handheld-card bg-white rounded-2xl shadow p-4" data-release="2024" data-rating="4" data-os="Android">
+        <img src="https://anbernic.com/cdn/shop/files/RG406H_9b66e38f-318e-4b4b-9849-5870a37a6934.jpg?v=1741842935&width=800" alt="Anbernic RG406H" class="rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Anbernic RG406H</h2>
+        <p class="mb-2 text-sm text-gray-600">offering impressive performance that allows you to enjoy dozens of platform games while also looking great.</p>
+        <p class="text-sm text-gray-500 mb-1">Release Year: 2024</p>
+        <p class="text-sm text-gray-500 mb-1">Specs: 4" IPS, Unisoc T820, 8GB RAM, 64GB storage</p>
+        <p class="text-sm text-gray-500 mb-1">OS: Android</p>
+        <p class="text-sm text-gray-500 mb-2">Retail Price: $167.99</p>
+        <p class="text-sm text-gray-500 mb-2">Deal Price: $159.99</p>
+        <div class="text-yellow-400 mb-2">★★★★☆</div>
+        <div class="flex gap-4">
+          <a href="https://rh-go.link/RG406H" target="_blank" class="text-blue-500 hover:underline">Best Deal</a>
+          <a href="https://rh-go.link/RG406H" target="_blank" class="text-blue-500 hover:underline">Direct</a>
+          <a href="https://rh-go.link/RG406H_AE" target="_blank" class="text-blue-500 hover:underline">AliExpress</a>
+          <a href="https://rh-go.link/RG406H_Amzn" target="_blank" class="text-blue-500 hover:underline">Amazon</a>
+        </div>
+      </div>
+
+      <div class="handheld-card bg-white rounded-2xl shadow p-4" data-release="2024" data-rating="4" data-os="Linux (Arm)">
+        <img src="https://anbernic.com/cdn/shop/files/800x800_9778dfc7-8f8e-4276-bacd-dc6bc07d8e0b.jpg?v=1741842993&width=800" alt="Anbernic RG CubeXX" class="rounded mb-4">
+        <h2 class="text-xl font-semibold mb-2">Anbernic RG CubeXX</h2>
+        <p class="mb-2 text-sm text-gray-600">Retro square-screen, Linux 64-bit system and equipped with RGB lighting effects.</p>
+        <p class="text-sm text-gray-500 mb-1">Release Year: 2024</p>
+        <p class="text-sm text-gray-500 mb-1">Specs: 3.95" IPS, 720x720, Allwinner H700, 1GB RAM, 3,800mAh Battery</p>
+        <p class="text-sm text-gray-500 mb-1">OS: Linux (Arm)</p>
+        <p class="text-sm text-gray-500 mb-2">Retail Price: $66.99</p>
+        <div class="text-yellow-400 mb-2">★★★★☆</div>
+        <div class="flex gap-4">
+          <a href="https://rh-go.link/RG-CubeXX" target="_blank" class="text-blue-500 hover:underline">Best Deal</a>
+          <a href="https://rh-go.link/RG-CubeXX" target="_blank" class="text-blue-500 hover:underline">Direct</a>
+          <a href="https://rh-go.link/RG-CubeXX_AE" target="_blank" class="text-blue-500 hover:underline">AliExpress</a>
+          <a href="https://rh-go.link/RG-CubeXX_Amzn" target="_blank" class="text-blue-500 hover:underline">Amazon</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-white mt-10 p-6 text-center text-sm text-gray-500">
+    &copy; 2025 Gaming Portal. All rights reserved.
+  </footer>
+</body>
+</html>
